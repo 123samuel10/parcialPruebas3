@@ -4,17 +4,22 @@ module.exports = defineConfig({
   testDir: './tests',
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI ? 1 : 0, // Reducido de 2 a 1
   workers: 1,
+  timeout: 30000, // 30 segundos por test (reducido del default de 30s)
+  expect: {
+    timeout: 5000 // 5 segundos para assertions (reducido de 10s)
+  },
   reporter: [
     ['html'],
     ['list']
   ],
   use: {
     baseURL: 'http://localhost:8080',
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure', // Solo guardar trace en fallo final
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure'
+    video: 'off', // Desactivar video para acelerar
+    actionTimeout: 10000 // 10 segundos para acciones (reducido de 30s)
   },
 
   projects: [

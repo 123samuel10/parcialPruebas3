@@ -32,20 +32,14 @@ async function registerPatientViaUI(page, patientData) {
 
   // Wait for the response after clicking submit
   const responsePromise = page.waitForResponse(
-    response => response.url().includes('/api/patients') && response.request().method() === 'POST',
-    { timeout: 10000 }
+    response => response.url().includes('/api/patients') && response.request().method() === 'POST'
   );
 
   await page.click('#patient-form button[type="submit"]');
+  await responsePromise;
 
-  try {
-    await responsePromise;
-  } catch (error) {
-    console.log('No response received from /api/patients');
-  }
-
-  // Additional wait for UI updates
-  await page.waitForTimeout(1000);
+  // Minimal wait for UI updates
+  await page.waitForTimeout(300);
 }
 
 /**
@@ -65,7 +59,7 @@ async function verifyErrorMessage(page, fieldId, expectedMessage) {
 
   const fullFieldId = fieldMap[fieldId] || fieldId;
   const errorElement = page.locator(`#${fullFieldId}-error`);
-  await expect(errorElement).toBeVisible({ timeout: 10000 });
+  await expect(errorElement).toBeVisible({ timeout: 5000 });
   const errorText = await errorElement.textContent();
   if (errorText.trim() === '') {
     throw new Error(`Error element is visible but empty for field: ${fullFieldId}`);
@@ -78,7 +72,7 @@ async function verifyErrorMessage(page, fieldId, expectedMessage) {
  */
 async function verifySuccessMessage(page, successId, expectedMessage) {
   const successElement = page.locator(`#${successId}.show`);
-  await expect(successElement).toBeVisible({ timeout: 10000 });
+  await expect(successElement).toBeVisible({ timeout: 5000 });
   const successText = await successElement.textContent();
   expect(successText.toLowerCase()).toContain(expectedMessage.toLowerCase());
 }
@@ -106,21 +100,15 @@ async function scheduleAppointmentViaUI(page, appointmentData) {
 
   // Wait for the response after clicking submit
   const responsePromise = page.waitForResponse(
-    response => response.url().includes('/api/appointments') && response.request().method() === 'POST',
-    { timeout: 10000 }
+    response => response.url().includes('/api/appointments') && response.request().method() === 'POST'
   );
 
   // Enviar formulario
   await page.click('#appointment-form button[type="submit"]');
+  await responsePromise;
 
-  try {
-    await responsePromise;
-  } catch (error) {
-    console.log('No response received from /api/appointments');
-  }
-
-  // Additional wait for UI updates (appointments list reload)
-  await page.waitForTimeout(1000);
+  // Minimal wait for UI updates (appointments list reload)
+  await page.waitForTimeout(300);
 }
 
 /**
@@ -158,8 +146,8 @@ async function verifyAppointmentCancelled(page, patientName) {
  * Helper para esperar que el formulario esté listo
  */
 async function waitForFormReady(page) {
-  await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(500); // Pequeña espera adicional
+  await page.waitForLoadState('domcontentloaded');
+  await page.waitForTimeout(200); // Espera mínima
 }
 
 /**

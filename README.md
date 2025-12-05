@@ -19,8 +19,8 @@ Sistema completo de reserva de citas médicas con API REST, frontend y pruebas E
 - Opción para cancelar citas
 
 ### Pruebas E2E (Playwright)
-- 25 casos de prueba automatizados
-- Cobertura completa de funcionalidades
+- 8 casos de prueba automatizados
+- Cobertura de funcionalidades esenciales
 - Workflow de GitHub Actions que ejecuta las pruebas automáticamente
 
 ## Requisitos Previos
@@ -138,10 +138,8 @@ parcialpruebas3/
 │   ├── helpers/
 │   │   ├── testData.js              # Datos de prueba
 │   │   └── testHelpers.js           # Funciones auxiliares
-│   ├── 01-patient-registration.spec.js    # 10 casos
-│   ├── 02-appointment-scheduling.spec.js  # 8 casos
-│   ├── 03-appointment-cancellation.spec.js # 4 casos
-│   └── 04-complete-flow.spec.js           # 3 casos
+│   ├── basic-e2e.spec.js            # 8 casos de prueba esenciales
+│   └── old-tests/                   # Tests anteriores (backup)
 ├── .github/
 │   └── workflows/
 │       └── e2e-tests.yml            # CI/CD workflow
@@ -183,72 +181,16 @@ Combinación de datos que deben ser aceptados y rechazados.
 
 ## Casos de Prueba Implementados
 
-### Suite 1: Registro de Pacientes (10 casos)
-
-| ID | Caso de Prueba | Técnica | Objetivo |
-|---|---|---|---|
-| TC-001 | Registro exitoso con datos válidos | Partición válida | Flujo feliz |
-| TC-002 | Email sin @ | Partición inválida | Validar formato email |
-| TC-003 | Email sin dominio | Partición inválida | Validar formato email |
-| TC-004 | Teléfono corto (3 dígitos) | Valor límite inferior | Validar longitud mínima |
-| TC-005 | Teléfono con letras | Partición inválida | Validar caracteres |
-| TC-006 | Nombre vacío | Valor límite | Campo obligatorio |
-| TC-007 | Email vacío | Valor límite | Campo obligatorio |
-| TC-008 | Teléfono vacío | Valor límite | Campo obligatorio |
-| TC-009 | Email duplicado | Partición inválida | Validar unicidad |
-| TC-010 | Múltiples formatos teléfono | Particiones válidas | Validar flexibilidad |
-
-**Justificación:** Cubre todas las particiones (válidas e inválidas), valores límite (campos vacíos), y reglas de negocio (emails únicos).
-
-### Suite 2: Agendamiento de Citas (8 casos)
-
-| ID | Caso de Prueba | Técnica | Objetivo |
-|---|---|---|---|
-| TC-011 | Agendamiento exitoso | Partición válida | Flujo feliz |
-| TC-012 | Sin seleccionar paciente | Valor límite | Campo obligatorio |
-| TC-013 | Sin seleccionar doctor | Valor límite | Campo obligatorio |
-| TC-014 | Sin fecha | Valor límite | Campo obligatorio |
-| TC-015 | Sin hora | Valor límite | Campo obligatorio |
-| TC-016 | Horario ocupado (mismo doctor) | Partición inválida | Prevenir conflictos |
-| TC-017 | Múltiples citas mismo paciente | Partición válida | Validar flexibilidad |
-| TC-018 | Mismo horario, diferente doctor | Partición válida | Lógica de negocio |
-
-**Justificación:** Validación completa de campos obligatorios y regla crítica de negocio (no solapamiento de horarios por doctor).
-
-### Suite 3: Cancelación de Citas (4 casos)
-
-| ID | Caso de Prueba | Técnica | Objetivo |
-|---|---|---|---|
-| TC-019 | Cancelación exitosa | Partición válida | Flujo feliz |
-| TC-020 | Filtro citas activas | Partición válida | Validar filtrado |
-| TC-021 | Filtro citas canceladas | Partición válida | Validar filtrado |
-| TC-022 | Ver todas las citas | Partición válida | Vista completa |
-
-**Justificación:** Cobertura de estados de citas (activa, cancelada) y funcionalidad de filtros.
-
-### Suite 4: Flujos Completos E2E (3 casos)
-
-| ID | Caso de Prueba | Técnica | Objetivo |
-|---|---|---|---|
-| TC-023 | Flujo completo: registro + cita + cancelación | Integración | Flujo usuario completo |
-| TC-024 | Múltiples pacientes y citas | Integración | Escalabilidad |
-| TC-025 | Agendar sin paciente registrado | Partición inválida | Validar dependencias |
-
-**Justificación:** Pruebas de integración end-to-end y validación de flujos reales de usuario.
-
-## Resumen de Cobertura
-
-**Por Técnica:**
-- Particiones de Equivalencia: 15 casos (60%)
-- Valores Límite: 8 casos (32%)
-- Pruebas de Integración: 2 casos (8%)
-
-**Por Tipo de Validación:**
-- Validaciones de formato: 8 casos
-- Campos obligatorios: 6 casos
-- Reglas de negocio: 5 casos
-- Flujos completos: 3 casos
-- Funcionalidades de UI: 3 casos
+| ID | Caso de Prueba | Tipo |
+|---|---|---|
+| TC-001 | Registro exitoso de paciente | Registro |
+| TC-002 | Validación de email inválido | Validación |
+| TC-003 | Agendar cita exitosamente | Agendamiento |
+| TC-004 | Validación de campos vacíos en cita | Validación |
+| TC-005 | Conflicto de horario | Regla de negocio |
+| TC-006 | Cancelar cita activa | Cancelación |
+| TC-007 | Filtro de citas canceladas | Filtros |
+| TC-008 | Flujo completo E2E | Integración |
 
 ## GitHub Actions Workflow
 
