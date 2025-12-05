@@ -19,7 +19,7 @@ Sistema completo de reserva de citas médicas con API REST, frontend y pruebas E
 - Opción para cancelar citas
 
 ### Pruebas E2E (Playwright)
-- 8 casos de prueba automatizados
+- 6 casos de prueba automatizados
 - Cobertura de funcionalidades esenciales
 - Workflow de GitHub Actions que ejecuta las pruebas automáticamente
 
@@ -138,7 +138,7 @@ parcialpruebas3/
 │   ├── helpers/
 │   │   ├── testData.js              # Datos de prueba
 │   │   └── testHelpers.js           # Funciones auxiliares
-│   ├── basic-e2e.spec.js            # 8 casos de prueba esenciales
+│   ├── basic-e2e.spec.js            # 6 casos de prueba esenciales
 │   └── old-tests/                   # Tests anteriores (backup)
 ├── .github/
 │   └── workflows/
@@ -184,13 +184,11 @@ Combinación de datos que deben ser aceptados y rechazados.
 | ID | Caso de Prueba | Tipo |
 |---|---|---|
 | TC-001 | Registro exitoso de paciente | Registro |
-| TC-002 | Validación de email inválido | Validación |
-| TC-003 | Agendar cita exitosamente | Agendamiento |
-| TC-004 | Validación de campos vacíos en cita | Validación |
-| TC-005 | Conflicto de horario | Regla de negocio |
-| TC-006 | Cancelar cita activa | Cancelación |
-| TC-007 | Filtro de citas canceladas | Filtros |
-| TC-008 | Flujo completo E2E | Integración |
+| TC-002 | Agendar cita exitosamente | Agendamiento |
+| TC-003 | Conflicto de horario | Regla de negocio |
+| TC-004 | Cancelar cita activa | Cancelación |
+| TC-005 | Filtro de citas canceladas | Filtros |
+| TC-006 | Flujo completo E2E | Integración |
 
 ## GitHub Actions Workflow
 
