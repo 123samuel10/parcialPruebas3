@@ -1,0 +1,27 @@
+{
+  "name": "medical-appointment-system",
+  "version": "1.0.0",
+  "description": "Sistema de reserva de citas médicas con pruebas E2E",
+  "scripts": {
+    "install:all": "npm install && cd backend && npm install && cd ..",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && node server.js",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:report": "playwright show-report",
+    "setup": "npm run install:all && cd backend && npm run init-db && cd .. && npx playwright install chromium"
+  },
+  "keywords": ["medical", "appointments", "e2e", "testing"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "body-parser": "^1.20.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "concurrently": "^8.2.2"
+  }
+}

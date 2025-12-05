@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Citas Médicas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sistema de Citas Médicas</h1>
+        </header>
+
+        <main>
+            <!-- Formulario de Registro de Paciente -->
+            <section class="card" id="patient-section">
+                <h2>Registro de Paciente</h2>
+                <form id="patient-form">
+                    <div class="form-group">
+                        <label for="patient-name">Nombre Completo:</label>
+                        <input type="text" id="patient-name" name="name" required>
+                        <span class="error-message" id="name-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="patient-email">Email:</label>
+                        <input type="email" id="patient-email" name="email" required>
+                        <span class="error-message" id="email-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="patient-phone">Teléfono:</label>
+                        <input type="tel" id="patient-phone" name="phone" required>
+                        <span class="error-message" id="phone-error"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Registrar Paciente</button>
+                    <div class="success-message" id="patient-success"></div>
+                </form>
+            </section>
+
+            <!-- Formulario de Agendar Cita -->
+            <section class="card" id="appointment-section">
+                <h2>Agendar Cita</h2>
+                <form id="appointment-form">
+                    <div class="form-group">
+                        <label for="appointment-patient">Paciente:</label>
+                        <select id="appointment-patient" name="patient_id" required>
+                            <option value="">Seleccione un paciente</option>
+                        </select>
+                        <span class="error-message" id="patient-id-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="appointment-doctor">Doctor:</label>
+                        <select id="appointment-doctor" name="doctor_id" required>
+                            <option value="">Seleccione un doctor</option>
+                        </select>
+                        <span class="error-message" id="doctor-id-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="appointment-date">Fecha:</label>
+                        <input type="date" id="appointment-date" name="date" required>
+                        <span class="error-message" id="date-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="appointment-time">Hora:</label>
+                        <input type="time" id="appointment-time" name="time" required>
+                        <span class="error-message" id="time-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="appointment-reason">Motivo:</label>
+                        <textarea id="appointment-reason" name="reason" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Agendar Cita</button>
+                    <div class="success-message" id="appointment-success"></div>
+                </form>
+            </section>
+
+            <!-- Lista de Citas -->
+            <section class="card" id="appointments-list-section">
+                <h2>Citas Agendadas</h2>
+                <div class="filter-group">
+                    <label for="filter-status">Filtrar por estado:</label>
+                    <select id="filter-status">
+                        <option value="">Todas</option>
+                        <option value="active">Activas</option>
+                        <option value="cancelled">Canceladas</option>
+                    </select>
+                    <button class="btn btn-secondary" onclick="loadAppointments()">Actualizar</button>
+                </div>
+                <div id="appointments-list">
+                    <p class="loading">Cargando citas...</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Sistema de Citas Médicas</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
