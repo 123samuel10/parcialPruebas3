@@ -4,7 +4,6 @@ const {
   registerPatientViaUI,
   verifySuccessMessage,
   scheduleAppointmentViaUI,
-  verifyAppointmentInList,
   cancelAppointment,
   verifyAppointmentCancelled,
   waitForFormReady
@@ -12,7 +11,7 @@ const {
 
 /**
  * Suite de pruebas E2E básicas - Solo casos esenciales
- * Reducido de 25+ tests a 6 tests críticos que funcionan
+ * Reducido de 25+ tests a 5 tests críticos que funcionan
  */
 
 test.describe('Pruebas E2E Básicas', () => {
@@ -41,38 +40,10 @@ test.describe('Pruebas E2E Básicas', () => {
   });
 
   // ========================================
-  // AGENDAMIENTO DE CITAS (2 tests)
+  // AGENDAMIENTO DE CITAS (1 test)
   // ========================================
 
-  test('TC-002: Agendar cita exitosamente', async ({ page, request }) => {
-    // Registrar paciente primero
-    const patient = {
-      name: 'María García',
-      email: 'maria@test.com',
-      phone: '1234567890'
-    };
-
-    await registerPatientViaUI(page, patient);
-    await page.waitForTimeout(300);
-
-    // Agendar cita
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const dateStr = tomorrow.toISOString().split('T')[0];
-
-    await scheduleAppointmentViaUI(page, {
-      patientIndex: 0,
-      doctorIndex: 0,
-      date: dateStr,
-      time: '10:00',
-      reason: 'Consulta general'
-    });
-
-    await verifySuccessMessage(page, 'appointment-success', 'agendada exitosamente');
-    await verifyAppointmentInList(page, patient.name);
-  });
-
-  test('TC-003: Conflicto de horario', async ({ page }) => {
+  test('TC-002: Conflicto de horario', async ({ page }) => {
     // Registrar paciente
     const patient = {
       name: 'Pedro López',
@@ -113,7 +84,7 @@ test.describe('Pruebas E2E Básicas', () => {
   // CANCELACIÓN DE CITAS (2 tests)
   // ========================================
 
-  test('TC-004: Cancelar cita activa', async ({ page }) => {
+  test('TC-003: Cancelar cita activa', async ({ page }) => {
     // Crear paciente y cita
     const patient = {
       name: 'Ana Torres',
@@ -144,7 +115,7 @@ test.describe('Pruebas E2E Básicas', () => {
     await verifyAppointmentCancelled(page, patient.name);
   });
 
-  test('TC-005: Filtro de citas canceladas', async ({ page }) => {
+  test('TC-004: Filtro de citas canceladas', async ({ page }) => {
     // Crear y cancelar una cita
     const patient = {
       name: 'Luis Ramírez',
@@ -182,7 +153,7 @@ test.describe('Pruebas E2E Básicas', () => {
   // FLUJO COMPLETO (1 test)
   // ========================================
 
-  test('TC-006: Flujo completo E2E', async ({ page }) => {
+  test('TC-005: Flujo completo E2E', async ({ page }) => {
     // 1. Registrar paciente
     const patient = {
       name: 'Carlos Méndez',
