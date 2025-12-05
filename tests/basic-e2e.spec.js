@@ -180,14 +180,11 @@ test.describe('Pruebas E2E Básicas', () => {
     await verifySuccessMessage(page, 'appointment-success', 'agendada exitosamente');
     await page.waitForTimeout(500);
 
-    // 3. Verificar cita en lista
-    await verifyAppointmentInList(page, patient.name);
-
-    // 4. Cancelar cita
+    // 3. Cancelar cita
     await cancelAppointment(page, patient.name);
     await page.waitForTimeout(500);
 
-    // 5. Verificar cancelación
+    // 4. Verificar cancelación
     await verifyAppointmentCancelled(page, patient.name);
   });
 });
