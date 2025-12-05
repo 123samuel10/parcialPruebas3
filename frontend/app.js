@@ -51,10 +51,21 @@ document.getElementById('patient-form').addEventListener('submit', async (e) => 
 
         if (!response.ok) {
             if (data.field) {
-                showError(data.field.replace('_', '-'), data.error);
+                // Map backend field names to frontend field IDs
+                const fieldMap = {
+                    'name': 'patient-name',
+                    'email': 'patient-email',
+                    'phone': 'patient-phone'
+                };
+                showError(fieldMap[data.field] || data.field, data.error);
             } else if (data.fields) {
                 data.fields.forEach(field => {
-                    showError(field.replace('_', '-'), `Este campo es obligatorio`);
+                    const fieldMap = {
+                        'name': 'patient-name',
+                        'email': 'patient-email',
+                        'phone': 'patient-phone'
+                    };
+                    showError(fieldMap[field] || field, `Este campo es obligatorio`);
                 });
             } else {
                 alert(data.error);

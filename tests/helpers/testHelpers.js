@@ -29,7 +29,8 @@ async function registerPatientViaUI(page, patientData) {
   await page.fill('#patient-name', patientData.name);
   await page.fill('#patient-email', patientData.email);
   await page.fill('#patient-phone', patientData.phone);
-  await page.click('button[type="submit"]');
+  await page.click('#patient-form button[type="submit"]');
+  await page.waitForTimeout(500);
 }
 
 /**
@@ -37,8 +38,11 @@ async function registerPatientViaUI(page, patientData) {
  */
 async function verifyErrorMessage(page, fieldId, expectedMessage) {
   const errorElement = page.locator(`#${fieldId}-error`);
-  await expect(errorElement).toBeVisible();
+  await expect(errorElement).toBeVisible({ timeout: 10000 });
   const errorText = await errorElement.textContent();
+  if (errorText.trim() === '') {
+    throw new Error(`Error element is visible but empty for field: ${fieldId}`);
+  }
   expect(errorText.toLowerCase()).toContain(expectedMessage.toLowerCase());
 }
 
@@ -46,8 +50,8 @@ async function verifyErrorMessage(page, fieldId, expectedMessage) {
  * Helper para verificar mensaje de éxito
  */
 async function verifySuccessMessage(page, successId, expectedMessage) {
-  const successElement = page.locator(`#${successId}`);
-  await expect(successElement).toBeVisible();
+  const successElement = page.locator(`#${successId}.show`);
+  await expect(successElement).toBeVisible({ timeout: 10000 });
   const successText = await successElement.textContent();
   expect(successText.toLowerCase()).toContain(expectedMessage.toLowerCase());
 }
